@@ -1,0 +1,34 @@
+{
+  "name": "tomedio/php-ftp-client",
+  "type": "library",
+  "description": "A modern FTP and SSL-FTP client for PHP, offering easy-to-use helpers for managing remote files.",
+  "license": "MIT",
+  "keywords": [
+    "ftp",
+    "sftp",
+    "ssl-ftp",
+    "ssl",
+    "file",
+    "server",
+    "library",
+    "helper",
+    "php8"
+  ],
+  "homepage": "https://github.com/tomedio/php-ftp-client",
+  "authors": [
+    {
+      "name": "Tomasz Bajorek",
+      "email": "tomasz.bajorek@tomedio.com",
+      "homepage": "https://tomedio.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "ext-ftp": "*"
+  },
+  "autoload": {
+    "psr-0": {
+      "FtpClient": "src/"
+    }
+  }
+}
