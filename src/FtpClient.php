@@ -296,6 +296,7 @@ class FtpClient implements Countable
 
             // remove children
             foreach ($files as $file) {
+                usleep(1);
                 $this->remove($this->joinPaths($directory, $file), true);
             }
         }
@@ -317,6 +318,7 @@ class FtpClient implements Countable
 
         // remove children
         foreach ($files as $file) {
+            usleep(1);
             $this->remove($this->joinPaths($directory, $file), true);
         }
 
