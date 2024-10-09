@@ -788,6 +788,14 @@ class FtpClient implements Countable
     }
 
     /**
+     * Returns an original FTP connection if connected
+     */
+    public function getConnection(): ?Connection
+    {
+        return $this->ftp->getConnection();
+    }
+
+    /**
      * Join two parts of a path.
      */
     private function joinPaths(string $part1, string $part2): string

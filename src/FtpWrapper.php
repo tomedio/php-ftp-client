@@ -28,7 +28,6 @@ use FTP\Connection;
  * @method int nb_get(string $local_file, string $remote_file, int $mode, int $resumepos = 0) Retrieves a file from the FTP server and writes it to a local file (non-blocking)
  * @method int nb_put(string $remote_file, string $local_file, int $mode, int $startpos = 0) Stores a file on the FTP server (non-blocking)
  * @method array|false nlist(string $directory) Returns a list of file names in the given directory;
-remote_dir parameter may also include arguments
  * @method bool pasv(bool $pasv) Turns passive mode on or off
  * @method bool put(string $remote_file, string $local_file, int $mode, int $startpos = 0) Uploads a file to the FTP server
  * @method string|false pwd() Returns the current directory name
@@ -58,6 +57,10 @@ class FtpWrapper
     public function __call(string $name, array $arguments): mixed
     {
         $function = 'ftp_' . $name;
+
+        if (!$this->connection) {
+            throw new FtpException("Client is not connected to any FTP server");
+        }
 
         if (function_exists($function)) {
             array_unshift($arguments, $this->connection);
@@ -91,7 +94,9 @@ class FtpWrapper
     public function close(): bool
     {
         if ($this->connection) {
-            return ftp_close($this->connection);
+            $result = ftp_close($this->connection);
+            $this->connection = null;
+            return $result;
         }
         return false;
     }
@@ -102,5 +107,13 @@ class FtpWrapper
     public function quit(): bool
     {
         return $this->close();
+    }
+
+    /**
+     * Returns an original FTP connection if connected
+     */
+    public function getConnection(): ?Connection
+    {
+        return $this->connection;
     }
 }
