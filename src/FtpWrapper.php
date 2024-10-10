@@ -116,4 +116,16 @@ class FtpWrapper
     {
         return $this->connection;
     }
+
+    public function put(string $remote_file, string $local_file, int $mode, int $startpos = 0): bool
+    {
+        if (!$this->connection) {
+            throw new FtpException("Client is not connected to any FTP server");
+        }
+        
+        $localFileSize = filesize($local_file);
+        // if file is bigger than 10Mb, ftp_put may return false even for a successful upload
+        return ftp_put($this->connection, $remote_file, $local_file, $mode, $startpos)
+            || $localFileSize > 10485760 && $localFileSize === ftp_size($this->connection, $remote_file);
+    }
 }
