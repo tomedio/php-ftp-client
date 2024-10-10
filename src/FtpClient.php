@@ -342,9 +342,10 @@ class FtpClient implements Countable
                 return true;
             }
 
-            // in special cases delete operation can fail
-            $newPath = preg_replace('/[^A-Za-z0-9\/]/', '', $path);
-            if ($this->rename($path, $newPath)) {
+            // change file name in special cases delete operation can fail
+            $newFileName = preg_replace('/[^A-Za-z0-9\/]/', '', basename($path));
+            $newPath = $this->joinPaths(dirname($path), $newFileName);
+            if ($newPath !== $path && $this->rename($path, $newPath)) {
                 if (@$this->ftp->delete($newPath)
                     || ($this->isDir($newPath)
                         && $this->rmdir($newPath, $recursive))) {
