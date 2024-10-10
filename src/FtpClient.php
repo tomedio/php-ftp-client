@@ -768,6 +768,22 @@ class FtpClient implements Countable
     }
 
     /**
+     * Set the timeout in seconds.
+     */
+    public function setTimeout(int $seconds): bool
+    {
+        return $this->ftp->set_option(FTP_TIMEOUT_SEC, $seconds);
+    }
+
+    /**
+     * Get the timeout in seconds.
+     */
+    public function getTimeOut(): int
+    {
+        return $this->ftp->get_option(FTP_TIMEOUT_SEC);
+    }
+
+    /**
      * Convert raw info (drwx---r-x ...) to type (file, directory, link, unknown).
      * Only the first char is used for resolving.
      *
